@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>МФЦ — Запись на приём к руководителю</title>
+<style>
+  :root{
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono","Segoe UI Mono",Consolas,"Liberation Mono",monospace;
+    --plum:#46285f;
+    --plum-deep:#33184a;
+    --lilac:#a96fd6;
+    --lilac-soft:#c8a6ec;
+    --lilac-pale:#ede0fa;
+    --lavender:#f2ecfa;
+    --paper:#fffdfa;
+    --ink:#2a2233;
+    --line:#e4d7f1;
+    --gold:#c4a25c;
+    --green:#3f8f63;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--sans);
+    background:var(--lavender);
+    background-image:radial-gradient(circle at 12% 8%, #f7f0ff 0, transparent 45%),
+                     radial-gradient(circle at 88% 0%, #efe4fb 0, transparent 40%);
+    color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 18px}
+  .display{font-weight:700;letter-spacing:.01em}
+
+  header{
+    background:linear-gradient(135deg,var(--plum) 0%, #5b3580 55%, var(--plum-deep) 100%);
+    color:#fff;border-bottom:4px solid var(--lilac-soft);position:relative;overflow:hidden;
+  }
+  header::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;
+    background:radial-gradient(circle,rgba(200,166,236,.25),transparent 65%)}
+  .top-strip{background:rgba(0,0,0,.18);font-size:12px;letter-spacing:.03em;color:#e3d2f5;padding:7px 0;position:relative;z-index:1}
+  .top-strip .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .head-main{display:flex;align-items:center;gap:20px;padding:22px 0;position:relative;z-index:1}
+  .crest{
+    width:66px;height:66px;flex:0 0 66px;
+    background:linear-gradient(160deg,var(--lilac-soft),var(--lilac));border-radius:8px;
+    display:grid;place-items:center;color:#fff;font-weight:700;font-size:11px;
+    text-align:center;line-height:1.05;letter-spacing:.03em;
+    box-shadow:inset 0 0 0 3px rgba(255,255,255,.3), 0 6px 18px rgba(70,40,95,.4);
+  }
+  .crest span{display:block;font-size:27px;margin:1px 0}
+  .head-titles h1{font-weight:700;font-size:clamp(20px,3.6vw,30px);letter-spacing:.01em;text-transform:uppercase;line-height:1.08}
+  .head-titles p{color:#e0cef4;font-size:14px;margin-top:5px;font-weight:400}
+
+  .board{background:var(--plum-deep);padding:15px 0;position:relative;z-index:1}
+  .board .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .board-label{text-transform:uppercase;color:#a784cc;font-size:12px;letter-spacing:.12em;flex:0 0 100%;font-weight:600}
+  .window-cell{flex:1 1 150px;background:rgba(255,255,255,.05);border:1px solid rgba(168,124,212,.35);
+    border-radius:6px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between}
+  .window-cell .w{color:#b89bd6;font-size:12px;text-transform:uppercase;line-height:1.15;font-weight:600}
+  .window-cell .n{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--lilac-soft);
+    text-shadow:0 0 14px rgba(200,166,236,.6);letter-spacing:1px}
+  .blink{animation:blink 1.4s steps(1) infinite}
+  @keyframes blink{50%{opacity:.3}}
+
+  main{padding:32px 0 60px}
+  .lead{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--lilac);
+    border-radius:0 8px 8px 0;padding:17px 22px;margin-bottom:28px;font-size:15px;box-shadow:0 4px 16px rgba(70,40,95,.05)}
+  .lead b{color:var(--plum)}
+
+  .step-h{text-transform:uppercase;font-size:14px;letter-spacing:.07em;color:var(--plum);font-weight:700;
+    display:flex;align-items:center;gap:10px;margin:32px 0 15px}
+  .step-h .num{width:27px;height:27px;flex:0 0 27px;background:linear-gradient(150deg,var(--lilac),var(--plum));
+    color:#fff;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;box-shadow:0 3px 8px rgba(70,40,95,.3)}
+
+  .services{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
+  .svc{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:8px;
+    padding:15px 15px 15px 17px;cursor:pointer;position:relative;
+    transition:transform .14s ease,box-shadow .14s ease,border-color .14s,background .14s}
+  .svc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(70,40,95,.13);border-left-color:var(--lilac-soft)}
+  .svc.active{border-color:var(--lilac);border-left-color:var(--lilac);background:var(--lilac-pale)}
+  .svc .code{font-family:var(--mono);font-size:11px;color:#a88fc4;letter-spacing:1px}
+  .svc .title{font-weight:700;color:var(--plum);margin:5px 0 4px;font-size:15px;line-height:1.25}
+  .svc .desc{font-size:12.5px;color:#6a6175}
+  .svc .tick{position:absolute;top:13px;right:13px;width:21px;height:21px;border-radius:50%;
+    background:var(--lilac);color:#fff;display:none;place-items:center;font-size:12px;font-weight:700}
+  .svc.active .tick{display:grid}
+
+  .slots{display:flex;flex-wrap:wrap;gap:9px}
+  .slot{font-family:var(--mono);font-weight:500;background:var(--paper);border:1px solid var(--line);
+    border-radius:6px;padding:10px 16px;cursor:pointer;font-size:14px;transition:all .13s}
+  .slot:hover{border-color:var(--lilac);color:var(--plum)}
+  .slot.active{background:linear-gradient(150deg,var(--lilac),var(--plum));color:#fff;border-color:var(--plum)}
+  .slot.taken{opacity:.4;cursor:not-allowed;text-decoration:line-through}
+
+  .field{margin-top:10px}
+  .field label{display:block;font-size:13px;color:#6a6175;margin-bottom:6px;font-weight:700}
+  .field input{width:100%;max-width:380px;font-family:var(--sans);font-size:15px;padding:11px 13px;
+    border:1px solid var(--line);border-radius:7px;background:var(--paper)}
+  .field input:focus{outline:2px solid var(--lilac);border-color:var(--lilac)}
+
+  .ticket-btn{margin-top:30px;width:100%;text-transform:uppercase;letter-spacing:.05em;font-size:17px;font-weight:700;
+    background:linear-gradient(135deg,var(--lilac) 0%, var(--plum) 100%);color:#fff;border:none;border-radius:9px;
+    padding:19px;cursor:pointer;transition:filter .15s,transform .1s;box-shadow:0 6px 20px rgba(70,40,95,.35)}
+  .ticket-btn:hover{filter:brightness(1.08)}
+  .ticket-btn:active{transform:translateY(2px)}
+  .ticket-btn:disabled{background:#d6cae3;color:#9b8fab;box-shadow:none;cursor:not-allowed}
+  .hint{text-align:center;font-size:12.5px;color:#9b8fab;margin-top:11px}
+
+  .overlay{position:fixed;inset:0;background:rgba(40,20,60,.78);backdrop-filter:blur(3px);
+    display:none;align-items:flex-start;justify-content:center;padding:30px 16px;z-index:50;overflow-y:auto}
+  .overlay.show{display:flex}
+  .ticket{background:var(--paper);width:344px;max-width:100%;border-radius:5px;font-family:var(--mono);
+    position:relative;margin-top:10px;animation:print .5s cubic-bezier(.2,.8,.2,1);box-shadow:0 30px 70px rgba(0,0,0,.55)}
+  @keyframes print{from{transform:translateY(-60px) scaleY(.4);opacity:0}to{transform:none;opacity:1}}
+  .ticket .perf{height:14px;background:radial-gradient(circle at 7px 0, transparent 6px, var(--paper) 7px) 0 -7px/14px 14px repeat-x}
+  .t-body{padding:6px 24px 24px}
+  .t-org{text-align:center;border-bottom:2px dashed var(--line);padding-bottom:13px;position:relative}
+  .t-org .mfc{font-family:var(--sans);font-weight:700;color:var(--plum);font-size:15px;letter-spacing:.03em;text-transform:uppercase}
+  .t-org .sub{font-size:10px;color:#a88fc4;margin-top:3px;letter-spacing:.05em}
+  .seal{position:absolute;top:-4px;right:0;width:54px;height:54px;border-radius:50%;border:2px solid var(--lilac);
+    color:var(--lilac);opacity:.55;display:grid;place-items:center;transform:rotate(-14deg);font-family:var(--sans);
+    font-size:8px;text-align:center;line-height:1.1;text-transform:uppercase;font-weight:700}
+  .t-num-label{text-align:center;font-size:11px;color:#a88fc4;margin-top:18px;letter-spacing:.1em;text-transform:uppercase;font-family:var(--sans);font-weight:600}
+  .t-num{text-align:center;font-size:62px;font-weight:700;color:var(--plum);line-height:1;margin:4px 0 6px;letter-spacing:2px}
+  .t-wait{background:linear-gradient(150deg,var(--plum),#5b3580);color:#fff;border-radius:6px;padding:11px;text-align:center;margin-top:14px}
+  .t-wait .lbl{font-size:10px;color:#cbb3e6;text-transform:uppercase;letter-spacing:.1em;font-family:var(--sans);font-weight:600}
+  .t-wait .val{font-size:20px;font-weight:700;color:var(--lilac-soft)}
+  .t-rows{font-size:13px;color:var(--ink);margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+  .t-row{display:flex;justify-content:space-between;gap:10px;padding:4px 0}
+  .t-row span:first-child{color:#a88fc4}
+  .t-row span:last-child{font-weight:700;text-align:right;max-width:60%}
+  .t-qr{display:flex;justify-content:center;margin:16px 0 4px}
+  .t-qr canvas{border:6px solid #fff;box-shadow:0 0 0 1px var(--line);image-rendering:pixelated}
+  .t-foot{text-align:center;font-size:10.5px;color:#a88fc4;margin-top:12px;border-top:2px dashed var(--line);padding-top:12px;line-height:1.5;font-family:var(--sans)}
+  .t-actions{display:flex;gap:8px;margin-top:16px;font-family:var(--sans)}
+  .t-actions button{flex:1;padding:11px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:700}
+  .btn-print{background:var(--plum);color:#fff}
+  .btn-close{background:var(--paper);color:var(--plum);border:1px solid var(--line)!important}
+
+  footer{background:var(--plum);color:#cbb3e6;font-size:12.5px;padding:24px 0;border-top:4px solid var(--lilac-soft)}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  footer b{color:#fff;text-transform:uppercase;font-weight:700;letter-spacing:.03em}
+
+  @media (max-width:560px){.t-num{font-size:52px}}
+  @media print{
+    body *{visibility:hidden}
+    .ticket,.ticket *{visibility:visible}
+    .overlay{position:absolute;background:none;padding:0;backdrop-filter:none}
+    .ticket{box-shadow:none}
+    .t-actions{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top-strip">
+    <div class="wrap">
+      <span>💜 Многофункциональный центр предоставления руководящих услуг</span>
+      <span>Режим работы: Пн–Пт 9:00–18:00 · обед 13:00–14:00</span>
+    </div>
+  </div>
+  <div class="wrap head-main">
+    <div class="crest">МОИ<span>📋</span>ВСТРЕЧИ</div>
+    <div class="head-titles">
+      <h1>Запись на приём к&nbsp;руководителю</h1>
+      <p>Единое окно взаимодействия с&nbsp;начальством · услуга предоставляется бесплатно*</p>
+    </div>
+  </div>
+</header>
+
+<section class="board">
+  <div class="wrap">
+    <div class="board-label">⬤ Электронная очередь · в реальном времени</div>
+    <div class="window-cell"><span class="w">Окно №1<br>Кабинет</span><span class="n blink" id="srv1">А-014</span></div>
+    <div class="window-cell"><span class="w">Окно №2<br>Перерыв ☕</span><span class="n">—</span></div>
+    <div class="window-cell"><span class="w">Талонов<br>в очереди</span><span class="n" id="queue">7</span></div>
+  </div>
+</section>
+
+<main>
+  <div class="wrap">
+    <div class="lead">
+      Уважаемый посетитель! Для встречи с&nbsp;<b id="bossName">[Имя&nbsp;Начальницы]</b> просьба заранее
+      получить электронный талон. Приём строго по&nbsp;записи. Опоздание более чем на&nbsp;3&nbsp;минуты
+      аннулирует талон и&nbsp;портит карму.
+    </div>
+
+    <div class="step-h"><span class="num">1</span> Выберите услугу</div>
+    <div class="services" id="services"></div>
+
+    <div class="step-h"><span class="num">2</span> Выберите день и время</div>
+    <div class="field"><label>Дата приёма</label><input type="date" id="date"></div>
+    <div class="field" style="margin-top:16px"><label>Свободные окна</label><div class="slots" id="slots"></div></div>
+
+    <div class="step-h"><span class="num">3</span> Данные заявителя</div>
+    <div class="field"><label>Ваше имя / должность</label><input type="text" id="visitor" placeholder="Например: Иванов И., младший гений"></div>
+
+    <button class="ticket-btn" id="getTicket" disabled>🎫 Получить талон</button>
+    <p class="hint">Нажимая кнопку, вы соглашаетесь явиться вовремя и&nbsp;с&nbsp;хорошим настроением.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b>МФЦ «Мои Встречи»</b><br>Отдел по работе с подчинёнными</div>
+    <div>Горячая линия: загляни в&nbsp;кабинет лично<br>*бесплатно, но за счёт твоих нервов</div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="ticket">
+    <div class="perf"></div>
+    <div class="t-body">
+      <div class="t-org">
+        <div class="seal">Принято<br>к приёму</div>
+        <div class="mfc">МФЦ «Мои Встречи»</div>
+        <div class="sub">ЭЛЕКТРОННЫЙ ТАЛОН · ОЧЕРЕДЬ ЖИВАЯ</div>
+      </div>
+      <div class="t-num-label">Ваш номер</div>
+      <div class="t-num" id="tNum">А-021</div>
+      <div class="t-wait">
+        <div class="lbl">Ориентировочное время ожидания</div>
+        <div class="val" id="tWait">≈ 12 мин</div>
+      </div>
+      <div class="t-rows">
+        <div class="t-row"><span>Услуга</span><span id="tSvc">—</span></div>
+        <div class="t-row"><span>Дата</span><span id="tDate">—</span></div>
+        <div class="t-row"><span>Время</span><span id="tTime">—</span></div>
+        <div class="t-row"><span>Заявитель</span><span id="tVisitor">—</span></div>
+        <div class="t-row"><span>Окно</span><span>№1 (Кабинет)</span></div>
+      </div>
+      <div class="t-qr" id="qr"></div>
+      <div class="t-foot">
+        Сохраняйте талон до конца приёма.<br>
+        При утере талона очередь начинается заново и&nbsp;со&nbsp;стыдом.
+      </div>
+      <div class="t-actions">
+        <button class="btn-print" onclick="window.print()">🖨️ Печать</button>
+        <button class="btn-close" onclick="closeTicket()">Закрыть</button>
+      </div>
+    </div>
+    <div class="perf"></div>
+  </div>
+</div>
+
+<script>
+  // ====== НАСТРОЙКА: впиши сюда имя начальницы ======
+  const BOSS_NAME = "[Имя Начальницы]";
+  document.getElementById('bossName').textContent = BOSS_NAME;
+
+  const SERVICES = [
+    {code:"УСЛ-01", title:"Согласование отгула", desc:"Рассмотрение в порядке живой очереди и личного обаяния."},
+    {code:"УСЛ-02", title:"Беседа «есть разговор»", desc:"Внеплановая. Уровень тревожности: повышенный."},
+    {code:"УСЛ-03", title:"Защита гениальной идеи", desc:"Презентация плана, который точно сработает. Наверное."},
+    {code:"УСЛ-04", title:"Прошу прибавку", desc:"Подача заявления с обоснованием незаменимости."},
+    {code:"УСЛ-05", title:"Подписание документа", desc:"Поставить подпись здесь, здесь и вот тут ещё."},
+    {code:"УСЛ-06", title:"Объяснительная", desc:"По поводу. Детали уточняются на месте."},
+  ];
+  const TIMES=["09:30","10:00","10:30","11:00","11:30","12:00","14:30","15:00","15:30","16:00"];
+  const TAKEN=["10:30","14:30","16:00"];
+  let state={svc:null,time:null};
+
+  const svcWrap=document.getElementById('services');
+  SERVICES.forEach(s=>{
+    const el=document.createElement('div');
+    el.className='svc';
+    el.innerHTML=`<div class="tick">✓</div><div class="code">${s.code}</div><div class="title">${s.title}</div><div class="desc">${s.desc}</div>`;
+    el.onclick=()=>{document.querySelectorAll('.svc').forEach(x=>x.classList.remove('active'));el.classList.add('active');state.svc=s.title;validate();};
+    svcWrap.appendChild(el);
+  });
+
+  const slotsWrap=document.getElementById('slots');
+  TIMES.forEach(t=>{
+    const el=document.createElement('div');
+    const taken=TAKEN.includes(t);
+    el.className='slot'+(taken?' taken':'');
+    el.textContent=t;
+    if(!taken)el.onclick=()=>{document.querySelectorAll('.slot').forEach(x=>x.classList.remove('active'));el.classList.add('active');state.time=t;validate();};
+    slotsWrap.appendChild(el);
+  });
+
+  const dateInput=document.getElementById('date');
+  const today=new Date();
+  dateInput.value=today.toISOString().split('T')[0];
+  dateInput.min=today.toISOString().split('T')[0];
+  const visitorInput=document.getElementById('visitor');
+  const btn=document.getElementById('getTicket');
+  function validate(){btn.disabled=!(state.svc&&state.time);}
+
+  // ====== ЗВУК «ДЗЫНЬ» (Web Audio, без файлов и интернета) ======
+  function playDing(){
+    try{
+      const ctx=new (window.AudioContext||window.webkitAudioContext)();
+      [[880,0],[1318.5,.12]].forEach(([f,t])=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.type='sine';o.frequency.value=f;o.connect(g);g.connect(ctx.destination);
+        const s=ctx.currentTime+t;
+        g.gain.setValueAtTime(0,s);
+        g.gain.linearRampToValueAtTime(.25,s+.02);
+        g.gain.exponentialRampToValueAtTime(.0001,s+.6);
+        o.start(s);o.stop(s+.65);
+      });
+    }catch(e){}
+  }
+
+  // ====== QR-КОД (рисуется локально на canvas, без библиотек) ======
+  function drawQR(text){
+    const size=29, scale=4, pad=2;
+    const canvas=document.createElement('canvas');
+    canvas.width=(size+pad*2)*scale; canvas.height=(size+pad*2)*scale;
+    const ctx=canvas.getContext('2d');
+    ctx.fillStyle="#fffdfa"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="#46285f";
+    // псевдослучайный сид из текста талона
+    let h=2166136261;
+    for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}
+    const rnd=()=>{h=(Math.imul(h,1664525)+1013904223)>>>0;return h/4294967296;};
+    // поле модулей
+    for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+      if(rnd()>0.5) ctx.fillRect((x+pad)*scale,(y+pad)*scale,scale,scale);
+    }
+    // три «глаза» (finder patterns)
+    const finder=(gx,gy)=>{
+      const X=(gx+pad)*scale, Y=(gy+pad)*scale;
+      ctx.fillStyle="#fffdfa";ctx.fillRect(X-scale,Y-scale,9*scale,9*scale);
+      ctx.fillStyle="#46285f";ctx.fillRect(X,Y,7*scale,7*scale);
+      ctx.fillStyle="#fffdfa";ctx.fillRect(X+scale,Y+scale,5*scale,5*scale);
+      ctx.fillStyle="#46285f";ctx.fillRect(X+2*scale,Y+2*scale,3*scale,3*scale);
+    };
+    finder(0,0);finder(size-7,0);finder(0,size-7);
+    return canvas;
+  }
+
+  btn.onclick=()=>{
+    const letters="АБВ";
+    const num=letters[Math.floor(Math.random()*3)]+"-0"+Math.floor(20+Math.random()*60);
+    const wait=Math.floor(5+Math.random()*40);
+    const visitor=visitorInput.value.trim()||"Аноним без должности";
+    document.getElementById('tNum').textContent=num;
+    document.getElementById('tWait').textContent="≈ "+wait+" мин";
+    document.getElementById('tSvc').textContent=state.svc;
+    document.getElementById('tDate').textContent=formatDate(dateInput.value);
+    document.getElementById('tTime').textContent=state.time;
+    document.getElementById('tVisitor').textContent=visitor;
+
+    const qrBox=document.getElementById('qr');
+    qrBox.innerHTML="";
+    qrBox.appendChild(drawQR(`${num}|${state.svc}|${dateInput.value} ${state.time}|${visitor}`));
+
+    document.getElementById('overlay').classList.add('show');
+    document.getElementById('queue').textContent=Math.floor(8+Math.random()*6);
+    playDing();
+  };
+
+  function formatDate(iso){
+    if(!iso)return "—";
+    const [y,m,d]=iso.split('-');
+    const months=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+    return `${parseInt(d)} ${months[parseInt(m)-1]} ${y} г.`;
+  }
+  function closeTicket(){document.getElementById('overlay').classList.remove('show');}
+  document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeTicket();});
+
+  setInterval(()=>{
+    const letters="АБВ";
+    document.getElementById('srv1').textContent=letters[Math.floor(Math.random()*3)]+"-0"+Math.floor(10+Math.random()*40);
+  },4200);
+</script>
+</body>
+</html>
